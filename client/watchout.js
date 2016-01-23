@@ -31,17 +31,17 @@ var enemies = _range(0, nEnemies).map(function(item) {
 });
 
 
-var circles = svg.selectAll('circle')
-  .data(dataSet)
-  .enter()
-  .append('circle')
-  .attr('cx', function(d){
-    return d[0];
-  })
-  .attr('cy', function(d){
-    return d[1];
-  })
-  .attr('r', 5);
+// var circles = svg.selectAll('circle')
+//   .data(dataSet)
+//   .enter()
+//   .append('circle')
+//   .attr('cx', function(d){
+//     return d[0];
+//   })
+//   .attr('cy', function(d){
+//     return d[1];
+//   })
+//   .attr('r', 5);
 
 circles.enter.append('circle')
   .attr('cx', w/2)
