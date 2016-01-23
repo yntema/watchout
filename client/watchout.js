@@ -60,10 +60,12 @@ shuffleEnemies(enemies);
 var collisionDetection = function() {
   setInterval(function() {
     enemies[0].forEach(function(enemy) {
-      setBoundaries();
       incrementScore();
+      setBoundaries();
       if(enemy !== null && checkCollisions(enemy)) {
-        updateHighScore();
+        if(score > highScore) {
+          updateHighScore();
+        }
         resetCurrentScore();
         collisionCounterUpdate();      
       }
