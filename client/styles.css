@@ -9,3 +9,20 @@ Feel free to use it if you like. */
   padding: 10px;
   width: 900px;
 }
+
+#ninja {
+  animation-duration: 2s;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spin {
+  from { 
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+  }
+  to { 
+    transform: rotate(1800deg);
+    transform-origin: 50% 50%;
+  }
+}
