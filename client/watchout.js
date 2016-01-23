@@ -1,60 +1,63 @@
-// start slingin' some d3 here.
+var w = 900;
+var h = 500;
 
-// set up game board parameters
-var w = 1000;
-var h = 800;
-var nEnemies = 30;
+var enemyData = [
+                  [ 5,     20 ],
+                  [ 480,   90 ],
+                  [ 250,   50 ],
+                  [ 100,   33 ],
+                  [ 330,   95 ],
+                  [ 410,   12 ],
+                  [ 475,   44 ],
+                  [ 25,    67 ],
+                  [ 85,    21 ],
+                  [ 220,   88 ]
+              ];
 
-// Create Gameboard
-var gameBoard = d3.select('body').append('svg')
-  .attr('width', w)
+var gameBoard = d3.select('body')
+  .append('svg')
+  .attr('width', w) 
   .attr('height', h);
 
-// // Update Score
-// var updateScore = d3.select('.current')
-//       .text(gameStats.score.toString());
+var drag = d3.behavior.drag()
+  .on('drag', function(){
+    player.attr('x', d3.event.x)
+        .attr('y', d3.event.y);
+  });
 
-// updateBestScore = ->
-//   gameStats.bestScore =
-//     _.max [gameStats.bestScore, gameStats.score]
-
-// var updateBestScore = d3.select('.highscore')
-//   .text(gameStats.bestScore.toString());
-
-// Make enemies array... possible issue when calling
-var enemies = _range(0, nEnemies).map(function(item) { 
-  return {
-    id: item,
-    x: Math.random()*100,
-    y: Math.random()*100
-  };
-});
+var player = gameBoard.selectAll('svg')
+  .data([[w/2, h/2]])
+  .enter()
+  .append('rect')
+  .attr('x', w/2)
+  .attr('y', h/2)
+  .attr('width', 20)
+  .attr('height', 20)
+  .attr('class', 'player')
+  .call(drag);
 
 
-// var circles = svg.selectAll('circle')
-//   .data(dataSet)
-//   .enter()
-//   .append('circle')
-//   .attr('cx', function(d){
-//     return d[0];
-//   })
-//   .attr('cy', function(d){
-//     return d[1];
-//   })
-//   .attr('r', 5);
+var enemies = gameBoard.selectAll('circle')
+  .data(enemyData)
+  .enter()
+  .append('circle')
+  .attr('cx', function(d) { return d[0]*2; })
+  .attr('cy', function(d) { return d[1]*2; })
+  .attr('r', 5)
+  .attr('class', 'enemy');  
 
-circles.enter.append('circle')
-  .attr('cx', w/2)
-  .attr('cy', h/2)
-  .attr('r', 20)
-  .attr('class', 'hero');
+var checkCollissions = function(){
+  enemies.
 
+};
 
+var shuffleEnemies = function(enemies){
+  setInterval(function(){
+    enemies
+      .transition().duration(1000)
+      .attr('cx', function(d) {return Math.floor(Math.random()*w)})
+      .attr('cy', function(d) {return Math.floor(Math.random()*h)});
+  }, 1500);
+};
 
-
-  // create enemey
-  // create player class  
-
-  // set timeout will generate random coordinates for every enemy and transition the enemies to the new coordinates
-
-  // 
+shuffleEnemies(enemies);
