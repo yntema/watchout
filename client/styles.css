@@ -3,3 +3,9 @@
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
+.board {
+  margin: auto;
+  border: 3px solid #73AD21;
+  padding: 10px;
+  width: 900px;
+}
