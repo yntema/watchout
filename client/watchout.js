@@ -60,11 +60,13 @@ shuffleEnemies(enemies);
 var collisionDetection = function() {
   setInterval(function() {
     enemies[0].forEach(function(enemy) {
+      setBoundaries();
       incrementScore();
       if(enemy !== null && checkCollisions(enemy)) {
         updateHighScore();
         resetCurrentScore();
-        collisionCounterUpdate();      }
+        collisionCounterUpdate();      
+      }
     });
   }, 50);
 };
@@ -109,6 +111,31 @@ var updateHighScore = function(){
   d3.select('body')
     .selectAll('.highscore span')
     .text(highScore);
+};
+
+var minX = 20;
+var minY = 20;
+var maxX = w - 20;
+var maxY = h - 20;
+
+
+var setBoundaries = function() {
+  if(player[0][0].cx.animVal.value < minX) {
+    player.transition().duration(100)
+    .attr('cx', minX);
+  }
+  if(player[0][0].cy.animVal.value < minY) {
+    player.transition().duration(100)
+    .attr('cy', minY);
+  }
+  if(player[0][0].cx.animVal.value > maxX) {
+    player.transition().duration(100)
+    .attr('cx', maxX);
+  }
+  if(player[0][0].cy.animVal.value > maxY) {
+    player.transition().duration(100)
+    .attr('cy', maxY);
+  }
 };
 
 
