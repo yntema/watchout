@@ -4,7 +4,7 @@ var score = 0;
 var collisions = 0;
 var highScore = 0;
 
-var enemyData = d3.range(30).map(function() { 
+var enemyData = d3.range(10).map(function() {
   return [Math.random()*w, Math.random()*h];
 });
 
@@ -72,8 +72,15 @@ var shuffleEnemies = function(enemies){
 
 shuffleEnemies(enemies);
 
+var collisionCounterUpdate = function(){
+  collisions++;
+  d3.select('body')
+    .selectAll('.collisions span')
+    .text(collisions);
+};
 
 var collisionDetection = function() {
+  var throttled = _.throttle(collisionCounterUpdate, 1900);
   setInterval(function() {
     enemies[0].forEach(function(enemy) {
       incrementScore();
@@ -83,7 +90,7 @@ var collisionDetection = function() {
           updateHighScore();
         }
         resetCurrentScore();
-        collisionCounterUpdate();      
+        throttled();      
       }
     });
   }, 50);
@@ -117,12 +124,6 @@ var incrementScore = function() {
     .text(score);
 };
 
-var collisionCounterUpdate = function(){
-  collisions++;
-  d3.select('body')
-    .selectAll('.collisions span')
-    .text(collisions);
-};
 
 var updateHighScore = function(){
   highScore = score;
