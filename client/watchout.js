@@ -1,6 +1,8 @@
 var w = 900;
 var h = 500;
-
+var score = 0;
+var collisions = 0;
+var highScore = 0;
 
 var enemyData = d3.range(5).map(function() { 
   return [Math.random()*w, Math.random()*h];
@@ -46,10 +48,10 @@ var enemies = gameBoard.selectAll('circle')
 var shuffleEnemies = function(enemies){
   setInterval(function(){
     enemies
-      .transition().duration(1000)
+      .transition().duration(2000)
       .attr('cx', function(d) {return Math.floor(Math.random()*w);})
       .attr('cy', function(d) {return Math.floor(Math.random()*h);});
-  }, 1500);
+  }, 2000);
 };
 
 shuffleEnemies(enemies);
@@ -58,19 +60,21 @@ shuffleEnemies(enemies);
 var collisionDetection = function() {
   setInterval(function() {
     enemies[0].forEach(function(enemy) {
+      incrementScore();
       if(enemy !== null && checkCollisions(enemy)) {
-        console.log('collision');
-      }
+        updateHighScore();
+        resetCurrentScore();
+        collisionCounterUpdate();      }
     });
-  }, 10);
+  }, 50);
 };
 
 
 var checkCollisions = function(enemy) {
   var x1 = enemy.cx.animVal.value;
   var y1 = enemy.cy.animVal.value;
-  var x2 = player[0][0].cx.baseVal.value;
-  var y2 = player[0][0].cy.baseVal.value;
+  var x2 = player[0][0].cx.animVal.value;
+  var y2 = player[0][0].cy.animVal.value;
   var distance = function() {
     return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1 - y2, 2));
   };
@@ -78,6 +82,39 @@ var checkCollisions = function(enemy) {
 };
 
 collisionDetection();
+
+var resetCurrentScore = function() {
+  score = 0;
+  d3.select('body')
+  .selectAll('.current span')
+  .text(score);
+};
+
+var incrementScore = function() {
+  score++;
+  d3.select('body')
+    .selectAll('.current span')
+    .text(score);
+};
+
+var collisionCounterUpdate = function(){
+  collisions++;
+  d3.select('body')
+    .selectAll('.collisions span')
+    .text(collisions);
+};
+
+var updateHighScore = function(){
+  highScore = score;
+  d3.select('body')
+    .selectAll('.highscore span')
+    .text(highScore);
+};
+
+
+
+
+
 
 
 
